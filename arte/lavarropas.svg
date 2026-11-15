@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Lavarropas · base para Illustrator. Cada <g id> se convierte en una capa/grupo con nombre. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 120 120">
+  <defs>
+    <clipPath id="mascara-tambor"><circle cx="55" cy="72" r="28"/></clipPath>
+  </defs>
+
+  <g id="fondo">
+    <rect id="fondo-color" x="0" y="0" width="120" height="120" fill="#ffffff"/>
+  </g>
+
+  <g id="sombra">
+    <rect x="11" y="11" width="100" height="104" rx="8" fill="#111111"/>
+  </g>
+
+  <g id="cuerpo">
+    <rect x="5" y="5" width="100" height="104" rx="8" fill="#ffffff" stroke="#111111" stroke-width="5"/>
+  </g>
+
+  <g id="panel">
+    <rect x="5" y="5" width="100" height="26" rx="8" fill="#bfe3ff" stroke="#111111" stroke-width="5"/>
+    <rect x="9" y="22" width="92" height="9" fill="#bfe3ff"/>
+    <line x1="5" y1="31" x2="105" y2="31" stroke="#111111" stroke-width="5"/>
+  </g>
+
+  <g id="perillas">
+    <rect x="16" y="14" width="9" height="9" fill="#111111"/>
+    <rect x="30" y="14" width="9" height="9" fill="#2f8bff" stroke="#111111" stroke-width="2"/>
+    <rect x="66" y="14" width="29" height="9" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+  </g>
+
+  <g id="tambor-fondo">
+    <circle cx="55" cy="72" r="31" fill="#ffffff"/>
+  </g>
+
+  <g id="agua" clip-path="url(#mascara-tambor)">
+    <path id="agua-ola" d="M20 72l7-6 7 6 7-6 7 6 7-6 7 6 7-6 7 6 7-6 7 6V112H20z" fill="#2f8bff"/>
+  </g>
+
+  <g id="burbujas" clip-path="url(#mascara-tambor)">
+    <circle id="burbuja-1" cx="42" cy="86" r="4" fill="#ffffff"/>
+    <circle id="burbuja-2" cx="62" cy="92" r="3" fill="#ffffff"/>
+    <circle id="burbuja-3" cx="52" cy="80" r="2.5" fill="#ffffff"/>
+  </g>
+
+  <g id="tambor-borde">
+    <circle cx="55" cy="72" r="31" fill="none" stroke="#111111" stroke-width="5"/>
+  </g>
+</svg>

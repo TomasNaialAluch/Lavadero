@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1700" viewBox="0 0 300 340">
+  <defs><clipPath id="vidrio"><circle cx="150" cy="205" r="56"/></clipPath></defs>
+  <g id="fondo"><rect width="300" height="340" fill="#8dc3e8"/></g>
+  <ellipse id="sombra" cx="150" cy="324" rx="124" ry="11" fill="#111" opacity=".12"/>
+  <g id="cuerpo">
+    <rect x="24" y="16" width="252" height="300" rx="16" fill="#f3f3f1"/>
+    <rect x="244" y="16" width="32" height="300" rx="16" fill="#e4e4e1"/>
+    <rect x="24" y="16" width="252" height="6" rx="3" fill="#fff"/>
+    <rect x="24" y="294" width="252" height="22" rx="10" fill="#e4e4e1"/>
+    <rect x="24" y="294" width="252" height="2" fill="#d2d2cf"/>
+  </g>
+  <g id="panel">
+    <rect x="24" y="22" width="252" height="52" fill="#ececea"/>
+    <rect x="24" y="72" width="252" height="2.5" fill="#d2d2cf"/>
+    <rect x="46" y="38" width="46" height="14" rx="5" fill="#cfcfcc"/>
+    <rect x="104" y="34" width="84" height="22" rx="3" fill="#6bb0e0"/>
+    <rect x="110" y="40" width="40" height="5" rx="2" fill="#bfe3ff"/>
+    <circle cx="236" cy="46" r="15" fill="#fff" stroke="#d2d2cf" stroke-width="2"/>
+    <rect x="234.5" y="34" width="3" height="11" rx="1.5" fill="#8a8a86"/>
+  </g>
+  <g id="puerta">
+    <circle cx="150" cy="210" r="94" fill="#dededb"/>
+    <circle cx="150" cy="205" r="94" fill="#fff"/>
+    <circle cx="150" cy="205" r="72" fill="#d9d9d6"/>
+    <circle cx="150" cy="205" r="62" fill="#7fbbe6"/>
+  </g>
+  <g id="vidrio-interior" clip-path="url(#vidrio)">
+    <circle cx="150" cy="205" r="56" fill="#8cc4ea"/>
+    <g id="agua">
+      <path d="M30 205q15-12 30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0V280H30z" fill="#2f8bff"/>
+      <path d="M30 214q15-10 30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0V280H30z" fill="#1f6fe0" opacity=".55"/>
+    </g>
+    <g id="burbujas" fill="#fff">
+      <circle cx="128" cy="240" r="6"/><circle cx="160" cy="246" r="4.5"/>
+      <circle cx="146" cy="232" r="3.5"/><circle cx="176" cy="238" r="5"/>
+    </g>
+    <path d="M150 149a56 56 0 0 1 0 112a56 56 0 0 0 0-112z" fill="#000" opacity=".06"/>
+  </g>
+  <g id="reflejo" opacity=".85">
+    <path d="M112 182c4-14 18-22 32-22" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity=".7"/>
+    <circle cx="106" cy="198" r="3.5" fill="#fff" opacity=".6"/>
+  </g>
+</svg>

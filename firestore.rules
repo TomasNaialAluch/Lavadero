@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // App interna del edificio, sin login: lectura/escritura abierta
+    // sólo para las colecciones que usa la app.
+    match /machines/{id}     { allow read, write: if true; }
+    match /logs/{id}         { allow read, create: if true; }
+    match /reservations/{id} { allow read, write: if true; }
+  }
+}
