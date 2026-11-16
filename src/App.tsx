@@ -3,7 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Home from './pages/Home'
 import Stats from './pages/Stats'
 import Reservations from './pages/Reservations'
-import { CalTab, ChartTab, HomeTab } from './components/Icons'
+import Sum from './pages/Sum'
+import { CalTab, ChartTab, HomeTab, ListTab, WasherTab } from './components/Icons'
 import { firebaseEnabled } from './firebase'
 
 function Page({ children }: { children: React.ReactNode }) {
@@ -19,6 +20,8 @@ function Page({ children }: { children: React.ReactNode }) {
   )
 }
 
+const scrollToId = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+
 function Shell() {
   const location = useLocation()
   return (
@@ -32,14 +35,24 @@ function Shell() {
             <Route path="/" element={<Page><Home /></Page>} />
             <Route path="/horarios" element={<Page><Stats /></Page>} />
             <Route path="/reservas" element={<Page><Reservations /></Page>} />
+            <Route path="/sum" element={<Page><Sum /></Page>} />
           </Routes>
         </AnimatePresence>
       </main>
-      <nav className="tabs">
-        <NavLink to="/" end><HomeTab /><span>Inicio</span></NavLink>
-        <NavLink to="/horarios"><ChartTab /><span>Horarios</span></NavLink>
-        <NavLink to="/reservas"><CalTab /><span>Reservas</span></NavLink>
-      </nav>
+      {location.pathname === '/sum' ? (
+        // en el SUM la barra es propia: nada que lleve a las máquinas salvo el botón "Lavadero"
+        <nav className="tabs sum-tabs" aria-label="Menú del SUM">
+          <NavLink to="/"><WasherTab /><span>Lavadero</span></NavLink>
+          <button onClick={() => scrollToId('sum-reservar')}><CalTab /><span>Reservar</span></button>
+          <button onClick={() => scrollToId('sum-lista')}><ListTab /><span>Reservas</span></button>
+        </nav>
+      ) : (
+        <nav className="tabs">
+          <NavLink to="/" end><HomeTab /><span>Inicio</span></NavLink>
+          <NavLink to="/horarios"><ChartTab /><span>Horarios</span></NavLink>
+          <NavLink to="/reservas"><CalTab /><span>Reservas</span></NavLink>
+        </nav>
+      )}
     </>
   )
 }

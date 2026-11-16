@@ -1,4 +1,4 @@
-import type { ActiveUse, MachineId, MachineState, Reservation, UsageLog } from './types'
+import type { ActiveUse, MachineId, MachineState, Reservation, SumBooking, UsageLog } from './types'
 import { MACHINES } from './types'
 import * as fs from './store.firebase'
 import * as local from './store.local'
@@ -13,6 +13,9 @@ export interface Store {
   subscribeReservations(cb: (r: Reservation[]) => void): () => void
   addReservation(r: Omit<Reservation, 'id'>): Promise<void>
   removeReservation(id: string): Promise<void>
+  subscribeSum(cb: (b: SumBooking[]) => void): () => void
+  addSum(b: Omit<SumBooking, 'id' | 'owner'>): Promise<void>
+  removeSum(id: string): Promise<void>
 }
 
 export const store: Store = firebaseEnabled ? fs : local

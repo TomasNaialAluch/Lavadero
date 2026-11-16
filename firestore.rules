@@ -38,6 +38,22 @@ service cloud.firestore {
       allow create: if request.auth != null;
     }
 
+    // SUM (salón con parrilla): un documento por día y turno (id = día_turno), así que no se puede
+    // reservar dos veces lo mismo. Solo se crea o se borra: quien reservó es el único que puede cancelar.
+    match /sum/{id} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.owner == request.auth.uid
+        && request.resource.data.turn in ['dia', 'noche']
+        && request.resource.data.day is string
+        && request.resource.data.day.size() == 10
+        && request.resource.data.floor is string
+        && request.resource.data.floor.size() > 0
+        && request.resource.data.floor.size() <= 12
+        && id == request.resource.data.day + '_' + request.resource.data.turn;
+      allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
+    }
+
     // Reservas (sin dueño por ahora)
     match /reservations/{id} {
       allow read: if true;

@@ -1,0 +1,154 @@
+/* SUM: mismo estilo (grilla, ventanas, sombras duras) con otra paleta: brasa y dorado */
+:root[data-theme='sum'] {
+  --bg: #fffaf0;
+  --sky: #ffdf9e;     /* líneas de la grilla y fondos claros */
+  --blue: #e8452c;    /* acento principal: brasa */
+  --orange: #ffb100;  /* dorado */
+}
+
+/* marcas que distinguen el SUM del lavadero */
+.sum-banner {
+  background: var(--blue); color: #fff; border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink);
+  padding: 10px 14px; margin: 0 0 14px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: .85rem;
+}
+:root[data-theme='sum'] .tabs { background: #fff3d6; }
+:root[data-theme='sum'] .tabs a.active { background: var(--blue); }
+/* barra propia del SUM: Lavadero (volver), Reservar y Reservas */
+.sum-tabs a { background: #2f8bff; color: #fff; }
+.sum-tabs button {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 10px 0 max(12px, env(safe-area-inset-bottom)); background: transparent; color: var(--ink);
+  border: 0; border-left: 2px solid var(--ink); font: inherit; font-weight: 700; font-size: .72rem;
+  text-transform: uppercase; letter-spacing: .06em; cursor: pointer;
+}
+.sum-tabs button:active { background: var(--ink); color: #fff; }
+.sum-tabs a + button { border-left: 2px solid var(--ink); }
+
+.sum-back {
+  display: inline-flex; align-items: center; gap: 6px; margin: 0 0 14px;
+  font-weight: 700; font-size: .9rem; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--ink); text-decoration: none; padding: 8px 12px;
+  border: 2px solid var(--ink); border-radius: 6px; background: #fff; box-shadow: 3px 3px 0 var(--ink);
+}
+.sum-back:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+
+/* ventana de presentación */
+.sum-hero .titlebar .who { background: var(--orange); }
+.sum-hero .art { background: #ffcf6e; padding: 18px 0 6px; }
+.sum-hero .art svg { width: min(68%, 240px); height: auto; display: block; }
+.sum-hero h1 { margin: 6px 0 2px; font-size: 1.9rem; }
+.sum-hero .sub { margin: 0; }
+
+.grill-art .flame { transform-box: fill-box; transform-origin: 50% 100%; animation: flick .8s ease-in-out infinite alternate; }
+.grill-art .f2 { animation-duration: 1s; animation-delay: -.3s; }
+.grill-art .f3 { animation-duration: .7s; animation-delay: -.5s; }
+.grill-art .f4 { animation-duration: .95s; animation-delay: -.1s; }
+.grill-art .f5 { animation-duration: .85s; animation-delay: -.6s; }
+@keyframes flick { from { transform: scale(1, .82) skewX(-3deg); } to { transform: scale(1.06, 1.12) skewX(3deg); } }
+.grill-art .smoke circle { transform-box: fill-box; transform-origin: center; animation: smoke 3.6s ease-out infinite; opacity: 0; }
+.grill-art .smoke .s2 { animation-delay: 1.2s; }
+.grill-art .smoke .s3 { animation-delay: 2.4s; }
+@keyframes smoke { 0% { transform: translate(0, 28px) scale(.5); opacity: 0; } 25% { opacity: .95; } 100% { transform: translate(10px, -26px) scale(1.5); opacity: 0; } }
+.grill-art .ember { animation: ember 1.4s ease-in-out infinite alternate; }
+.grill-art .e2 { animation-delay: -.5s; } .grill-art .e3 { animation-delay: -.9s; }
+@keyframes ember { from { opacity: .35; } to { opacity: 1; } }
+
+/* formulario */
+.sum-form { padding: 14px; }
+.sum-form .lbl { margin: 20px 0 10px; font-weight: 700; font-size: 1.1rem; text-transform: uppercase; letter-spacing: .03em; }
+.sum-form .lbl:first-child { margin-top: 0; }
+.sum-form .lbl span { font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--muted); }
+
+.sum-pick {
+  font: inherit; font-weight: 700; color: var(--ink); background: #fff;
+  border: 2px solid var(--ink); border-radius: 6px; box-shadow: 3px 3px 0 var(--ink);
+  padding: 8px 4px; min-height: 56px; cursor: pointer; line-height: 1.1;
+  display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 2px;
+  transition: transform .08s, box-shadow .08s, background .12s;
+}
+.sum-pick:active:not(:disabled) { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+.sum-pick.on { background: var(--blue); color: #fff; }
+.sum-pick small { font-size: .72rem; font-weight: 500; text-transform: uppercase; letter-spacing: .04em; }
+
+/* meses: saltar directo a uno de los próximos meses */
+.sum-months { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.sum-months .sum-pick { min-height: 62px; font-size: 1.15rem; flex-direction: column; gap: 0; }
+.sum-months .sum-pick small { font-size: .85rem; text-transform: none; letter-spacing: 0; }
+
+.far-btn { width: 100%; margin-top: 10px; min-height: 60px; font-size: 1.15rem; background: var(--orange); }
+
+/* ventana (modal) para fechas lejanas */
+.sum-modal-bg { position: fixed; inset: 0; z-index: 10; background: rgba(0, 0, 0, .6); display: grid; place-items: center; padding: 12px; }
+.sum-modal { width: 100%; max-width: 520px; max-height: 92vh; overflow-y: auto; margin: 0; }
+.sum-modal .lbl { margin: 4px 0 10px; font-weight: 700; font-size: 1.15rem; text-transform: none; line-height: 1.25; }
+.modal-grid { display: grid; gap: 10px; }
+.modal-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.modal-grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.modal-grid .sum-pick { min-height: 62px; font-size: 1.15rem; }
+.modal-grid.four .sum-pick b { font-size: 1.5rem; }
+.modal-grid .sum-pick:disabled { background: #ececea; color: #8a8a86; border-color: #b9b9b5; box-shadow: none; cursor: not-allowed; }
+.modal-back { width: 100%; margin-bottom: 12px; min-height: 52px; font-size: 1.05rem; }
+.modal-close { margin-top: 16px; font-size: 1.1rem; padding: 14px; background: #fff; color: var(--ink); }
+
+/* semana: flechas para ir a la semana anterior o siguiente */
+.sum-month-nav { display: grid; grid-template-columns: 60px minmax(0, 1fr) 60px; gap: 8px; align-items: center; margin-bottom: 10px; }
+.sum-month-nav .arrow { min-height: 64px; font-size: 1.5rem; padding: 0; }
+.sum-month-nav .arrow:disabled { background: #ececea; color: #b9b9b5; border-color: #b9b9b5; box-shadow: none; cursor: not-allowed; }
+.month-name { margin: 0; text-align: center; font-size: 1.1rem; line-height: 1.15; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; }
+.month-name span { font-weight: 500; color: var(--muted); font-size: 1rem; }
+
+/* semana: cada día es una fila grande con sus dos botones (Día / Noche) */
+.sum-legend { display: grid; gap: 6px; font-size: 1rem; line-height: 1.25; color: var(--ink); margin: 0 0 12px; padding: 10px 12px; background: var(--sky); border: 2px solid var(--ink); }
+.sum-week { display: grid; gap: 12px; }
+.wk-row { display: grid; grid-template-columns: 70px 1fr 1fr; gap: 8px; align-items: stretch; }
+.wk-row.today .wk-day { background: var(--orange); }
+.wk-day {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border: 2px solid var(--ink); background: var(--sky); line-height: 1; padding: 6px 2px;
+}
+.wk-day small { font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.wk-day b { font-size: 1.9rem; }
+.sum-pick.wk-btn { min-height: 74px; font-size: 1.35rem; }
+.sum-pick.wk-btn small { font-size: .95rem; font-weight: 700; text-transform: uppercase; letter-spacing: .02em; }
+.sum-pick.wk-btn:disabled { background: #ececea; color: #8a8a86; border-color: #b9b9b5; box-shadow: none; cursor: not-allowed; }
+.sum-pick.wk-btn:disabled span { text-decoration: line-through; }
+
+.sum-turns { display: grid; gap: 10px; }
+.sum-turns .sum-pick { flex-direction: column; align-items: flex-start; gap: 4px; padding: 14px 16px; font-size: 1.25rem; text-align: left; }
+.sum-turns .sum-pick small { font-size: .85rem; text-transform: none; letter-spacing: 0; }
+.sum-turns .sum-pick:disabled { background: #ececea; color: #8a8a86; border-color: #b9b9b5; box-shadow: none; cursor: not-allowed; }
+.sum-turns .sum-pick:disabled span { text-decoration: line-through; }
+
+.sum-finish { margin-top: 16px; padding-top: 14px; border-top: 2px solid var(--ink); }
+.sum-finish .what { font-size: 1.25rem; line-height: 1.3; margin: 0 0 12px; }
+.sum-finish .what b { font-size: 1.5rem; }
+.sum-finish input { font-size: 1.2rem; padding: 14px 12px; }
+.sum-finish .floor-label { margin: 6px 0 6px; font-size: 1.05rem; text-transform: none; letter-spacing: 0; }
+/* cartel: mantener el orden y la limpieza */
+.sum-rule { margin: 14px 0 0; padding: 12px 14px; background: #fff3d6; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); font-size: 1.05rem; line-height: 1.3; }
+.sum-rule b { font-weight: 700; }
+.sum-finish button.big { margin-top: 12px; font-size: 1.4rem; padding: 20px; text-transform: uppercase; letter-spacing: .03em; background: var(--blue); color: #fff; }
+.sum-finish button.big:disabled { background: #ececea; color: #8a8a86; border-color: #b9b9b5; box-shadow: none; cursor: not-allowed; }
+
+.sum-list li small { display: block; color: var(--ink); font-size: 1rem; }
+
+/* botoncito del inicio */
+.sum-link {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px 8px 10px;
+  background: #e8452c; color: #fff; text-decoration: none;
+  font-weight: 700; font-size: .95rem; text-transform: uppercase; letter-spacing: .05em;
+  border: 2px solid var(--ink); border-radius: 6px; box-shadow: 3px 3px 0 var(--ink);
+}
+.sum-link:active { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+.sum-link small { font-size: .62rem; font-weight: 500; opacity: .9; display: block; letter-spacing: .06em; }
+.sum-link .txt { line-height: 1.05; }
+.home-top { display: flex; justify-content: flex-end; margin: 0 0 14px; }
+.home-top.left { justify-content: flex-start; }
+/* el del lavadero: azul de las máquinas (colores fijos, para que no cambien con el tema del SUM) */
+.sum-link.to-lav { background: #2f8bff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .grill-art .flame { animation: flick 1.4s ease-in-out infinite alternate !important; }
+  .grill-art .smoke circle { animation: smoke 5s ease-out infinite !important; }
+  .grill-art .ember { animation: ember 2s ease-in-out infinite alternate !important; }
+}

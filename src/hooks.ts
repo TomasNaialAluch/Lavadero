@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { store, emptyState } from './store'
-import type { MachineState, Reservation, UsageLog } from './types'
+import type { MachineState, Reservation, SumBooking, UsageLog } from './types'
 
 export function useMachines() {
   const [s, setS] = useState<MachineState>(emptyState())
@@ -15,6 +15,11 @@ export function useLogs() {
 export function useReservations() {
   const [s, setS] = useState<Reservation[]>([])
   useEffect(() => store.subscribeReservations(setS), [])
+  return s
+}
+export function useSum() {
+  const [s, setS] = useState<SumBooking[]>([])
+  useEffect(() => store.subscribeSum(setS), [])
   return s
 }
 export function useNow(intervalMs = 1000) {

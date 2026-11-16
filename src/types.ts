@@ -17,6 +17,26 @@ export const MACHINES: MachineConfig[] = [
 
 export const machineById = (id: MachineId) => MACHINES.find((m) => m.id === id)!
 
+/**
+ * SUM (salón de usos múltiples) con la parrilla incluida: se reserva todo junto, por día y turno.
+ * Hay dos turnos: de día (desde la mañana hasta ~18 hs) y de noche (desde ~20 hs hasta la madrugada).
+ */
+export type SumTurn = 'dia' | 'noche'
+export const SUM_TURNS: { id: SumTurn; name: string; hours: string }[] = [
+  { id: 'dia', name: 'Turno día', hours: 'de la mañana hasta las 18 hs' },
+  { id: 'noche', name: 'Turno noche', hours: 'desde las 20 hs hasta las 6 de la mañana' },
+]
+export interface SumBooking {
+  /** `${day}_${turn}`: un solo documento por día y turno, así no se puede reservar dos veces lo mismo */
+  id: string
+  /** AAAA-MM-DD */
+  day: string
+  turn: SumTurn
+  floor: string
+  /** identificador anónimo del celular que reservó (solo él puede cancelar) */
+  owner: string
+}
+
 /** Una máquina en uso. null = libre. */
 export interface ActiveUse {
   /** Identificador anónimo del celular que inició el lavado (solo él puede sumar fichas o terminarlo antes) */

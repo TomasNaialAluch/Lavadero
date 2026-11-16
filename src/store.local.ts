@@ -1,5 +1,5 @@
 // Modo local: guarda todo en localStorage. Sirve para probar sin Firebase.
-import type { ActiveUse, MachineId, MachineState, Reservation, UsageLog } from './types'
+import type { ActiveUse, MachineId, MachineState, Reservation, SumBooking, UsageLog } from './types'
 import { MACHINES } from './types'
 import { localDeviceId } from './identity'
 
@@ -67,4 +67,16 @@ export async function addReservation(r: Omit<Reservation, 'id'>) {
 }
 export async function removeReservation(id: string) {
   write(K.res, read<Reservation[]>(K.res, []).filter((r) => r.id !== id))
+}
+
+// SUM (modo de prueba, en este navegador)
+export const subscribeSum = (cb: (b: SumBooking[]) => void) => sub(() => read<SumBooking[]>('tw.sum', []), cb)
+export async function addSum(b: Omit<SumBooking, 'id' | 'owner'>) {
+  const id = `${b.day}_${b.turn}`
+  const all = read<SumBooking[]>('tw.sum', [])
+  if (all.some((x) => x.id === id)) throw new Error('ya reservado')
+  write('tw.sum', [...all, { ...b, id, owner: localDeviceId() }])
+}
+export async function removeSum(id: string) {
+  write('tw.sum', read<SumBooking[]>('tw.sum', []).filter((x) => x.id !== id))
 }

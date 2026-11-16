@@ -2,7 +2,7 @@ import {
   addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, setDoc, updateDoc, where,
 } from 'firebase/firestore'
 import { db, ensureAuth } from './firebase'
-import type { MachineId, MachineState, Reservation, UsageLog } from './types'
+import type { MachineId, MachineState, Reservation, SumBooking, UsageLog } from './types'
 import { MACHINES } from './types'
 
 const DAY = 24 * 60 * 60 * 1000
@@ -51,6 +51,27 @@ export function subscribeReservations(cb: (r: Reservation[]) => void) {
 export async function addReservation(r: Omit<Reservation, 'id'>) {
   await ensureAuth()
   await addDoc(collection(db, 'reservations'), r)
+}
+
+const todayKey = () => {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+export function subscribeSum(cb: (b: SumBooking[]) => void) {
+  const q = query(collection(db, 'sum'), where('day', '>=', todayKey()), orderBy('day'))
+  return onSnapshot(q, (s) => cb(s.docs.map((d) => ({ ...(d.data() as Omit<SumBooking, 'id'>), id: d.id }))))
+}
+
+/** El id es día_turno: si ya existe, Firebase rechaza la escritura (no se puede reservar dos veces lo mismo). */
+export async function addSum(b: Omit<SumBooking, 'id' | 'owner'>) {
+  const owner = await ensureAuth()
+  await setDoc(doc(db, 'sum', `${b.day}_${b.turn}`), { ...b, owner })
+}
+
+export async function removeSum(id: string) {
+  await ensureAuth()
+  await deleteDoc(doc(db, 'sum', id))
 }
 
 export async function removeReservation(id: string) {
