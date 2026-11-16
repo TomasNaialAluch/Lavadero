@@ -1,10 +1,47 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // App interna del edificio, sin login: lectura/escritura abierta
-    // sólo para las colecciones que usa la app.
-    match /machines/{id}     { allow read, write: if true; }
-    match /logs/{id}         { allow read, create: if true; }
-    match /reservations/{id} { allow read, write: if true; }
+
+    // Las máquinas: todos pueden mirar. Para escribir hace falta el identificador anónimo del celular
+    // (Firebase lo crea solo, el vecino no inicia sesión). Cada lavado guarda su dueño (`owner`).
+    match /machines/{id} {
+      allow read: if true;
+
+      // primera vez que se usa la máquina
+      allow create: if request.auth != null
+        && request.resource.data.owner == request.auth.uid
+        && request.resource.data.endsAt <= request.time.toMillis() + 9000000;
+
+      allow update: if request.auth != null && (
+        // iniciar: la máquina está libre o ya terminó, y el nuevo dueño soy yo (máx. 2 h 30 de lavado)
+        (request.resource.data.active == true
+          && request.resource.data.owner == request.auth.uid
+          && request.resource.data.endsAt <= request.time.toMillis() + 9000000
+          && (resource.data.get('active', false) == false
+              || resource.data.get('endsAt', 0) < request.time.toMillis()))
+        // sumar fichas: solo el dueño, y solo para aumentar el tiempo
+        || (resource.data.get('active', false) == true
+            && resource.data.get('owner', '') == request.auth.uid
+            && request.resource.data.endsAt > resource.data.endsAt
+            && request.resource.data.endsAt <= request.time.toMillis() + 43200000)
+        // liberar: el dueño cuando quiera, y cualquiera una vez que terminó el tiempo
+        || (request.resource.data.active == false
+            && (resource.data.get('owner', '') == request.auth.uid
+                || resource.data.get('active', false) == false
+                || resource.data.get('endsAt', 0) < request.time.toMillis()))
+      );
+    }
+
+    // Historial anónimo para las estadísticas: se puede leer y agregar, no modificar ni borrar.
+    match /logs/{id} {
+      allow read: if true;
+      allow create: if request.auth != null;
+    }
+
+    // Reservas (sin dueño por ahora)
+    match /reservations/{id} {
+      allow read: if true;
+      allow create, delete: if request.auth != null;
+    }
   }
 }

@@ -43,6 +43,7 @@ h2 { font-size: 1.2rem; font-weight: 700; margin: 0 0 6px; text-transform: upper
 .bar { height: 16px; border: 2px solid var(--ink); background: #fff; margin-top: 14px; }
 .bar i { display: block; height: 100%; background: var(--ink); }
 .card .sub { margin: 8px 0 0; }
+.card .sub.lock { margin-top: 14px; padding: 10px 12px; background: #fff; border: 2px dashed var(--ink); color: var(--ink); font-weight: 500; font-size: .85rem; }
 
 
 /* Botones con sombra dura que se hunde */

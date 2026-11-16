@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { store } from '../store'
 import { useNow } from '../hooks'
+import { useUid } from '../identity'
 import type { ActiveUse, MachineConfig } from '../types'
 import Dryer from './Dryer'
 import Washer from './Washer'
@@ -23,6 +24,8 @@ export default function MachineCard({ machine, use }: { machine: MachineConfig; 
   const [asking, setAsking] = useState(false)
   const [floor, setFloor] = useState('')
   const Art = machine.kind === 'wash' ? Washer : Dryer
+  const uid = useUid()
+  const mine = use !== null && uid !== null && use.owner === uid // este celular inició el lavado
 
   const remaining = use ? use.endsAt - now : 0
   const done = use !== null && remaining <= 0
@@ -76,12 +79,17 @@ export default function MachineCard({ machine, use }: { machine: MachineConfig; 
           <>
             <div className="bar"><motion.i animate={{ width: `${progress}%` }} transition={{ ease: 'linear', duration: 1 }} /></div>
             <p className="sub">Termina a las {clock(use.endsAt)}</p>
-            <div className="row">
-              <button className="btn" onClick={addFicha}>+ Ficha · {machine.defaultMinutes / 60} h</button>
-              <button className="btn dark" onClick={() => store.freeMachine(machine.id)}>
-                {done ? 'Retiré' : 'Terminé'}
-              </button>
-            </div>
+            {mine || done ? (
+              <div className="row">
+                {mine && <button className="btn" onClick={addFicha}>+ Ficha · {machine.defaultMinutes / 60} h</button>}
+                <button className="btn dark" onClick={() => store.freeMachine(machine.id)}>
+                  {done ? 'Retiré' : 'Terminé'}
+                </button>
+              </div>
+            ) : (
+              // Otro vecino la está usando: solo quien la inició puede sumar fichas o terminarla antes
+              <p className="sub lock">La está usando {who}. Cuando termine el tiempo vas a poder usarla.</p>
+            )}
           </>
         )}
 

@@ -19,6 +19,8 @@ export const machineById = (id: MachineId) => MACHINES.find((m) => m.id === id)!
 
 /** Una máquina en uso. null = libre. */
 export interface ActiveUse {
+  /** Identificador anónimo del celular que inició el lavado (solo él puede sumar fichas o terminarlo antes) */
+  owner?: string
   floor: string
   startedAt: number
   endsAt: number

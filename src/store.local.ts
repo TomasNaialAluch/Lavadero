@@ -1,6 +1,7 @@
 // Modo local: guarda todo en localStorage. Sirve para probar sin Firebase.
 import type { ActiveUse, MachineId, MachineState, Reservation, UsageLog } from './types'
 import { MACHINES } from './types'
+import { localDeviceId } from './identity'
 
 const K = { machines: 'tw.machines', logs: 'tw.logs', res: 'tw.res' }
 const listeners = new Set<() => void>()
@@ -47,7 +48,7 @@ export const subscribeMachines = (cb: (s: MachineState) => void) =>
 
 export async function startMachine(id: MachineId, floor: string, minutes: number) {
   const now = Date.now()
-  write(K.machines, { ...read(K.machines, {}), [id]: { floor, startedAt: now, endsAt: now + minutes * 60000 } })
+  write(K.machines, { ...read(K.machines, {}), [id]: { owner: localDeviceId(), floor, startedAt: now, endsAt: now + minutes * 60000 } })
   write(K.logs, [...read<UsageLog[]>(K.logs, []), { machine: id, startedAt: now, minutes }])
 }
 export async function setEndsAt(id: MachineId, endsAt: number) {
