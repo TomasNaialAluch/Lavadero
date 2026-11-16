@@ -1,0 +1,41 @@
+/* Reservas: botones grandes pero compactos (todo el formulario en una tarjeta) */
+.card.form { padding: 14px; }
+.lbl { margin: 14px 0 8px; font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; }
+.lbl:first-child { margin-top: 0; }
+.lbl span { font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--muted); }
+
+/* botón grande tipo "ficha" */
+.pick {
+  font: inherit; font-weight: 700; color: var(--ink); background: #fff;
+  border: 2px solid var(--ink); border-radius: 6px; box-shadow: 3px 3px 0 var(--ink);
+  padding: 8px 4px; min-height: 54px; cursor: pointer; line-height: 1.1;
+  display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 2px;
+  transition: transform .08s, box-shadow .08s, background .12s;
+}
+.pick:active:not(:disabled) { transform: translate(3px, 3px); box-shadow: 0 0 0 var(--ink); }
+.pick.on { background: var(--ink); color: #fff; }
+.pick small { font-size: .72rem; font-weight: 500; text-transform: uppercase; letter-spacing: .04em; }
+
+.machine-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.machine-row .pick { font-size: .8rem; min-height: 62px; padding-inline: 2px; letter-spacing: -.01em; }
+.machine-row .pick small { font-size: .7rem; }
+
+.day-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.day-grid .pick b { font-size: 1.35rem; }
+
+.hour-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.pick.hour { font-size: 1.1rem; min-height: 50px; padding-inline: 2px; }
+.pick.hour.off { background: #ececea; color: #8a8a86; border-color: #b9b9b5; box-shadow: none; text-decoration: line-through; cursor: not-allowed; }
+
+/* cierre: resumen + piso + botón */
+.finish { margin-top: 16px; padding-top: 14px; border-top: 2px solid var(--ink); }
+.finish .what { font-size: 1.1rem; line-height: 1.3; margin: 0 0 10px; }
+.finish .what b { font-size: 1.4rem; }
+.finish input { font-size: 1.05rem; padding: 10px 12px; }
+.finish button.big { margin-top: 10px; font-size: 1.25rem; padding: 16px; text-transform: uppercase; letter-spacing: .03em; }
+.finish button.big:disabled { background: #ececea; color: #8a8a86; border-color: #b9b9b5; box-shadow: none; cursor: not-allowed; }
+
+.ok-box { background: #b8f5d4; border: 2px solid var(--ink); padding: 14px 16px; font-weight: 700; font-size: 1.05rem; margin: 0 0 18px; box-shadow: 4px 4px 0 var(--ink); }
+
+/* lista de reservas */
+.btn.small-del { padding: 10px 14px; font-size: .95rem; flex: none; }
